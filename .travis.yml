@@ -1,0 +1,17 @@
+language: csharp
+mono: none
+dotnet: 3.1.411
+solution: ReactApplication.sln
+before_script:
+  - dotnet restore
+script:
+#   "sbt clean coverage test"
+  - dotnet build SmlTestTask.sln -c Release
+  #- dotnet test SmlTestTask.Tests/SmlTestTask.Tests.csproj
+  #- dotnet test BLL.Test/BLL.Test.csproj
+  - dotnet test -c Release --no-build SmlTestTask.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude="[BLL.Stub]*%2c[DAL.Stub]*"
+
+   
+#after_success: "sbt coveralls"
+after_script:
+  - bash <(curl -s https://codecov.io/bash)
