@@ -17,8 +17,9 @@ build:
   verbosity: minimal
 test_script:
 - ps: >-
-    & dotnet test -c Release --no-build BLL.Test/BLL.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput='./opencoverCoverage.xml'
+    & dotnet test -c Release --no-build BLL.Test/BLL.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
        
     $env:APPVEYOR_BUILD_NUMBER
     
-    & tools/csmacnz.coveralls.exe --opencover -i opencoverCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --useRelativePaths --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
+    & tools/csmacnz.coveralls.exe --opencover -i BLL.Test/coverage.opencover.xml --repoToken $env:COVERALLS_REPO_TOKEN --useRelativePaths --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
+    
