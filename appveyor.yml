@@ -9,7 +9,7 @@ assembly_info:
   assembly_informational_version: '{version}'
 environment:
   COVERALLS_REPO_TOKEN:
-    secure: zIHf3KrTMpkqTXYcmqpGCUKXHLbrrRG8d
+    secure: B7bQaLTluSqxIzIOBNwQo3OadwIfBWMYd
 before_build:
   - nuget restore ".\SmlTestTask.sln"
 build:
