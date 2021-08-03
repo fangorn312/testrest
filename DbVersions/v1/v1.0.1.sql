@@ -1,0 +1,3 @@
+﻿ALTER TABLE public."Student"
+ALTER COLUMN dob
+SET NOT NULL;

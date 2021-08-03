@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Configurations>Debug;Release;Test</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Dto\**" />
+    <Compile Remove="EF\IEntityWithId\**" />
+    <EmbeddedResource Remove="Dto\**" />
+    <EmbeddedResource Remove="EF\IEntityWithId\**" />
+    <None Remove="Dto\**" />
+    <None Remove="EF\IEntityWithId\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="EF\Context\JsTemplateContext.cs" />
+    <Compile Remove="Repository\_Base\EfCrudLocalizedRepository.cs" />
+    <Compile Remove="Repository\LocalPersonWorkingItemRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Dto\LocalAcademicPerformanceDto.cs" />
+    <Compile Include="Dto\LocalSexDto.cs" />
+    <Compile Include="Dto\LocalStudentDto.cs" />
+    <Compile Include="EF\IEntityWithId\AcademicPerformance.cs" />
+    <Compile Include="EF\IEntityWithId\Sex.cs" />
+    <Compile Include="EF\IEntityWithId\Student.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.10" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7" />
+    <PackageReference Include="Scriban" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BLL.Interface\BLL.Interface.csproj" />
+    <ProjectReference Include="..\DAL.Interface\DAL.Interface.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EF\Context\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Configurations>Debug;Release;Test</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Repository\LocalAcademicPerformanceRepository.cs" />
+    <Compile Remove="Repository\LocalStudentRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DAL.Interface\DAL.Interface.csproj" />
+  </ItemGroup>
+
+</Project>

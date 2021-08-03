@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Configurations>Debug;Release;Test</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Services\LocalSecretaryArbitrationCaseService.cs~RF482e273.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BLL.Interface\BLL.Interface.csproj" />
+    <ProjectReference Include="..\DAL.EF\DAL.EF.csproj" />
+    <ProjectReference Include="..\DAL.Interface\DAL.Interface.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="LocalProvider\" />
+  </ItemGroup>
+
+</Project>

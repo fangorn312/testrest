@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SmlTestTask</name>
+    </assembly>
+    <members>
+        <member name="M:PL.API.Open.Controllers.BaseCRUDApiController`2.Get">
+            <summary>
+            Get all records
+            </summary>
+            <returns>Returns a list of records</returns>
+        </member>
+        <member name="M:PL.API.Open.Controllers.BaseCRUDApiController`2.Get(`1)">
+            <summary>
+            Get one record by id.
+            </summary>
+            <param name="id"></param>
+            <returns>Returns a single record</returns>
+            <response code="404">Record not found</response>    
+        </member>
+        <member name="M:PL.API.Open.Controllers.Base.BaseCUDApiController`2.Post(`0)">
+            <summary>
+            Add new record
+            </summary>
+            <returns>Added record</returns>
+            <response code="400">Invalid model</response>
+            <response code="409">Duplicate item</response>
+        </member>
+        <member name="M:PL.API.Open.Controllers.Base.BaseCUDApiController`2.Put(`0)">
+            <summary>
+            Update existing record
+            </summary>
+            <returns>Updated record</returns>
+            <response code="404">Not found</response>
+            <response code="400">Invalid model</response>
+        </member>
+        <member name="M:PL.API.Open.Controllers.Base.BaseCUDApiController`2.Delete(`1)">
+            <summary>
+            Delete record by id
+            </summary>
+            <param name="id"></param>
+            <response code="404">Not found</response>
+        </member>
+    </members>
+</doc>
