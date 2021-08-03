@@ -17,7 +17,7 @@ build:
   verbosity: minimal
 test_script:
 - ps: >-
-    dotnet test -c Release --no-build BLL.Test/BLL.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput='./opencoverCoverage.xml'
+    & dotnet test -c Release --no-build BLL.Test/BLL.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput='./opencoverCoverage.xml'
        
     $env:APPVEYOR_BUILD_NUMBER
     
