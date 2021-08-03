@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>coveralls.net</id>
-    <version>3.0.0</version>
+    <version>2.0.0</version>
     <title>coveralls.net - Coveralls.io uploader for .NET Code Coverage</title>
     <authors>csMACnz</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

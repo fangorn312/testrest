@@ -4,18 +4,18 @@
     <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
-    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">D:\Projects\VisualStudio\Backend_Demo\Backend\tools\.store\.stage\3kamntyj.gaw</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">D:\Projects\VisualStudio\Backend_Demo\Backend\tools\.store\.stage\3kamntyj.gaw</NuGetPackageFolders>
+    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">D:\Projects\VisualStudio\Backend_Demo\Backend\tools\.store\.stage\hyk1wv1y.caq</NuGetPackageRoot>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">D:\Projects\VisualStudio\Backend_Demo\Backend\tools\.store\.stage\hyk1wv1y.caq</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">DotnetToolReference</NuGetProjectStyle>
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">5.10.0</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <SourceRoot Include="D:\Projects\VisualStudio\Backend_Demo\Backend\tools\.store\.stage\3kamntyj.gaw\" />
+    <SourceRoot Include="D:\Projects\VisualStudio\Backend_Demo\Backend\tools\.store\.stage\hyk1wv1y.caq\" />
   </ItemGroup>
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Pkgcoveralls_net Condition=" '$(Pkgcoveralls_net)' == '' ">D:\Projects\VisualStudio\Backend_Demo\Backend\tools\.store\.stage\3kamntyj.gaw\coveralls.net\3.0.0</Pkgcoveralls_net>
+    <Pkgcoveralls_net Condition=" '$(Pkgcoveralls_net)' == '' ">D:\Projects\VisualStudio\Backend_Demo\Backend\tools\.store\.stage\hyk1wv1y.caq\coveralls.net\2.0.0</Pkgcoveralls_net>
   </PropertyGroup>
 </Project>
