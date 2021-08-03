@@ -26,41 +26,13 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DAL.EF.EF.Entities;
 
-namespace BLL.Local.Controllers2
+namespace SmlTestTask.Tests.Integration
 {
     [TestFixture]
-    public class TestSexController
+    public class TestSexController : BaseCotrollerIntegrationTest
     {
-        private SexController Controller;
-        private HttpClient client;
-        private TestRestContext context;
-
-        [SetUp]
-        public void Setup()
-        {
-            var configuration = new ConfigurationBuilder()
-                          .SetBasePath(Path.GetFullPath(@"../../"))
-                          .Build();
-
-
-            var builder = new WebHostBuilder()
-                      .UseEnvironment("Test")
-                      .UseStartup<Startup>()
-                      .UseConfiguration(configuration);
-
-            var server = new TestServer(builder);
-
-            client = server.CreateClient();
-
-            var dbOptions = new DbContextOptionsBuilder<TestRestContext>()
-                .UseInMemoryDatabase(databaseName: "TestDb")
-                .Options;
-
-            context = new TestRestContext(dbOptions);
-            InitTestData();
-        }
-
-        private void InitTestData()
+        private const string ControllerPath = "Sex";
+        protected override void InitTestData()
         {
             var female = new Sex()
             {
@@ -101,7 +73,7 @@ namespace BLL.Local.Controllers2
             };
             var neededList = new List<SexDto>() { female, male };
 
-            var response = await client.GetAsync($"/Sex");
+            var response = await client.GetAsync($"/{ControllerPath}");
             Assert.AreEqual(StatusCodes.Status200OK, (int)response.StatusCode);
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
@@ -113,18 +85,19 @@ namespace BLL.Local.Controllers2
 
         #region Load One Item
         [Test]
-        public void GetOne_Unknown()
+        public async Task GetOne_Unknown()
         {
             var id = 10;
 
-            var result = (ObjectResult)Controller.Get(id);
+            var response = await client.GetAsync($"/{ControllerPath}/{id}");
+            Assert.AreEqual(StatusCodes.Status404NotFound, (int)response.StatusCode);
 
-            Assert.AreEqual(StatusCodes.Status404NotFound, result.StatusCode);
-            Assert.AreEqual($"{nameof(SexDto)} with id = {id} not found", result.Value.ToString());
+            var stringResponse = await response.Content.ReadAsStringAsync();
+            Assert.AreEqual($"{nameof(SexDto)} with id = {id} not found", stringResponse);
         }
 
         [Test]
-        public void GetOne_Female()
+        public async Task GetOne_Female()
         {
             var neededFemaleSex = new SexDto()
             {
@@ -134,13 +107,17 @@ namespace BLL.Local.Controllers2
                 description = ""
             };
 
-            var resultFemaleSex = (SexDto)Controller.Get(neededFemaleSex.id);
+            var response = await client.GetAsync($"/{ControllerPath}/{neededFemaleSex.id}");
+            Assert.AreEqual(StatusCodes.Status200OK, (int)response.StatusCode);
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var resultFemaleSex = JsonConvert.DeserializeObject<SexDto>(jsonResponse);
 
             Assert.AreEqual(neededFemaleSex, resultFemaleSex);
         }
 
         [Test]
-        public void GetOne_Male()
+        public async Task GetOne_Male()
         {
             var neededMaleSex = new SexDto()
             {
@@ -150,7 +127,11 @@ namespace BLL.Local.Controllers2
                 description = ""
             };
 
-            var resultMaleSex = Controller.Get(neededMaleSex.id);
+            var response = await client.GetAsync($"/{ControllerPath}/{neededMaleSex.id}");
+            Assert.AreEqual(StatusCodes.Status200OK, (int)response.StatusCode);
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var resultMaleSex = JsonConvert.DeserializeObject<SexDto>(jsonResponse);
 
             Assert.AreEqual(neededMaleSex, resultMaleSex);
         }
@@ -158,7 +139,7 @@ namespace BLL.Local.Controllers2
 
         #region Add
         [Test]
-        public void Add_WithId()
+        public async Task Add_WithId()
         {
             var newSex = new SexDto()
             {
@@ -168,14 +149,17 @@ namespace BLL.Local.Controllers2
                 description = ""
             };
 
-            var result = (ObjectResult)Controller.Post(newSex);
-            
-            Assert.AreEqual(StatusCodes.Status400BadRequest, result.StatusCode);
-            Assert.AreEqual($"This operation is invalid for provided {nameof(SexDto)}", result.Value.ToString());
+            var json = JsonConvert.SerializeObject(newSex);
+
+            var response = await client.PostAsync($"/{ControllerPath}", new StringContent(json, Encoding.UTF8, "application/json"));
+            Assert.AreEqual(StatusCodes.Status400BadRequest, (int)response.StatusCode);
+
+            var stringResponse = await response.Content.ReadAsStringAsync();
+            Assert.AreEqual($"This operation is invalid for provided {nameof(SexDto)}", stringResponse);
         }
 
         [Test]
-        public void Add_Existing()
+        public async Task Add_Existing()
         {
             var newSex = new SexDto()
             {
@@ -184,15 +168,18 @@ namespace BLL.Local.Controllers2
                 code = "female",
                 description = ""
             };
-            
-            var result = (ObjectResult)Controller.Post(newSex);
 
-            Assert.AreEqual(StatusCodes.Status409Conflict, result.StatusCode);
-            Assert.AreEqual($"{nameof(SexDto)} with same fields are already exists", result.Value.ToString());
+            var json = JsonConvert.SerializeObject(newSex);
+
+            var response = await client.PostAsync($"/{ControllerPath}", new StringContent(json, Encoding.UTF8, "application/json"));
+            Assert.AreEqual(StatusCodes.Status409Conflict, (int)response.StatusCode);
+
+            var stringResponse = await response.Content.ReadAsStringAsync();
+            Assert.AreEqual($"{nameof(SexDto)} with same fields are already exists", stringResponse);
         }
 
         [Test]
-        public void Add_New()
+        public async Task Add_New()
         {
             var neededId = 3;
             var newSex = new SexDto()
@@ -203,16 +190,22 @@ namespace BLL.Local.Controllers2
                 description = "Только ради фейсбука"
             };
 
-            var result = (SexDto)Controller.Post(newSex);
-
+            var json = JsonConvert.SerializeObject(newSex);
             newSex.id = neededId;
-            Assert.AreEqual(newSex, result);
+
+            var response = await client.PostAsync($"/{ControllerPath}", new StringContent(json, Encoding.UTF8, "application/json"));
+            Assert.AreEqual(StatusCodes.Status200OK, (int)response.StatusCode);
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var resultSex = JsonConvert.DeserializeObject<SexDto>(jsonResponse);
+
+            Assert.AreEqual(newSex, resultSex);
         }
         #endregion
 
         #region Update
         [Test]
-        public void Update_Unknown()
+        public async Task Update_Unknown()
         {
             var updateUnknownSex = new SexDto()
             {
@@ -221,16 +214,18 @@ namespace BLL.Local.Controllers2
                 code = "unknown",
                 description = "Пол не установлен"
             };
+            var json = JsonConvert.SerializeObject(updateUnknownSex);
 
-            var result = (ObjectResult)Controller.Put(updateUnknownSex);
+            var response = await client.PutAsync($"/{ControllerPath}", new StringContent(json, Encoding.UTF8, "application/json"));
+            Assert.AreEqual(StatusCodes.Status404NotFound, (int)response.StatusCode);
 
-            Assert.AreEqual(StatusCodes.Status404NotFound, result.StatusCode);
-            Assert.AreEqual($"{nameof(SexDto)} with id = {updateUnknownSex.id} not found", result.Value.ToString());
+            var stringResponse = await response.Content.ReadAsStringAsync();
+            Assert.AreEqual($"{nameof(SexDto)} with id = {updateUnknownSex.id} not found", stringResponse);
         }
 
 
         [Test]
-        public void Update_Female()
+        public async Task Update_Female()
         {
             var updateFemaleSex = new SexDto()
             {
@@ -240,30 +235,41 @@ namespace BLL.Local.Controllers2
                 description = "Описание женского пола"
             };
 
-            var result = (SexDto)Controller.Put(updateFemaleSex);
+            var json = JsonConvert.SerializeObject(updateFemaleSex);
 
-            Assert.AreEqual(updateFemaleSex, result);
+            var response = await client.PutAsync($"/{ControllerPath}", new StringContent(json, Encoding.UTF8, "application/json"));
+            Assert.AreEqual(StatusCodes.Status200OK, (int)response.StatusCode);
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var resultSex = JsonConvert.DeserializeObject<SexDto>(jsonResponse);
+
+            Assert.AreEqual(updateFemaleSex, resultSex);
         }
         #endregion
 
         #region Remove
         [Test]
-        public void RemoveById_Unknown()
+        public async Task RemoveById_Unknown()
         {
             var id = 10;
 
-            var result = (ObjectResult)Controller.Delete(id);
+            var response = await client.DeleteAsync($"/{ControllerPath}/{id}");
+            Assert.AreEqual(StatusCodes.Status404NotFound, (int)response.StatusCode);
 
-            Assert.AreEqual(StatusCodes.Status404NotFound, result.StatusCode);
-            Assert.AreEqual($"{nameof(SexDto)} with id = {id} not found", result.Value.ToString());
+            var stringResponse = await response.Content.ReadAsStringAsync();
+            Assert.AreEqual($"{nameof(SexDto)} with id = {id} not found", stringResponse);
         }
 
         [Test]
-        public void RemoveById_Female()
+        public async Task RemoveById_Female()
         {
             var id = 1;
 
-            Assert.DoesNotThrow(() => Controller.Delete(id));
+            var response = await client.DeleteAsync($"/{ControllerPath}/{id}");
+            Assert.AreEqual(StatusCodes.Status200OK, (int)response.StatusCode);
+
+            var stringResponse = await response.Content.ReadAsStringAsync();
+            Assert.AreEqual("", stringResponse);
         }
         #endregion
     }

@@ -23,8 +23,10 @@ namespace DAL.EF.Dto
 
                 idSex = _Student.idSex,
                 idSexNavName = _Student.idSexNavigation?.name,
+                idSexNavCode = _Student.idSexNavigation?.code,
                 idAcademicPerformance = _Student.idAcademicPerformance,
-                idAcademicPerformanceNavName = _Student.idAcademicPerformanceNavigation?.name
+                idAcademicPerformanceNavName = _Student.idAcademicPerformanceNavigation?.name,
+                idAcademicPerformanceNavCode = _Student.idAcademicPerformanceNavigation?.code
             };
             return dto;
         }

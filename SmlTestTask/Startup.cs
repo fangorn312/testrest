@@ -49,7 +49,11 @@ namespace SmlTestTask
 
             services.AddCors();
 
-            switch (CurrentEnvironment.EnvironmentName)
+            var fullEnvName = CurrentEnvironment.EnvironmentName;
+            var parts = fullEnvName.Split(new [] { "-id-" }, StringSplitOptions.RemoveEmptyEntries);
+            var envType = parts[0];
+
+            switch (envType)
             {
                 case "Development":
                 case "Production":
@@ -63,9 +67,10 @@ namespace SmlTestTask
                     });
                     break;
                 case "Test":
+                    var testId = parts[1];
                     services.AddDbContext<TestRestContext>(options =>
                     {
-                        options.UseInMemoryDatabase("TestDb");
+                        options.UseInMemoryDatabase("TestDb" + testId);
                     });
                     break;
                 default:

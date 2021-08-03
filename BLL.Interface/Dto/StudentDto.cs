@@ -33,11 +33,7 @@ namespace BLL.Interface.Dto
                 && secondName.ToLower() == dto.secondName.ToLower()
                 && dob == dto.dob
                 && idSex == dto.idSex
-                && idAcademicPerformance == dto.idAcademicPerformance
-                && idSexNavCode.ToLower() == dto.idSexNavCode.ToLower()
-                && idSexNavName.ToLower() == dto.idSexNavName.ToLower()
-                && idAcademicPerformanceNavCode.ToLower() == dto.idAcademicPerformanceNavCode.ToLower()
-                && idAcademicPerformanceNavName.ToLower() == dto.idAcademicPerformanceNavName.ToLower();
+                && idAcademicPerformance == dto.idAcademicPerformance;
         }
     }
 }

@@ -42,7 +42,7 @@ namespace DAL.EF.Repository.Base
         #region Load Data
         public virtual List<Dto> Items()
         {
-            return TheWholeEntities.ToList().Select(x => new LocalDto().ConvertToDto(x)).ToList();
+            return TheWholeEntities.OrderBy(x=>x.id).ToList().Select(x => new LocalDto().ConvertToDto(x)).ToList();
         }
 
         public virtual Dto GetOneById(KeyType id)
