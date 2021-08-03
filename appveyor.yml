@@ -1,0 +1,24 @@
+version: 1.0.{build}
+skip_tags: true
+configuration: Release
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+environment:
+  COVERALLS_REPO_TOKEN:
+    secure: zIHf3KrTMpkqTXYcmqpGCUKXHLbrrRG8d
+before_build:
+  - nuget restore ".\SmlTestTask.sln"
+build:
+  project: .\SmlTestTask.sln
+  verbosity: minimal
+test_script:
+- ps: >-
+    .\packages\OpenCover.4.7.1221\tools\OpenCover.Console.exe -register:user -target:nunit-console.exe "-targetargs:""SmlTestTask.Tests\bin\$env:CONFIGURATION\netcoreapp3.1\SmlTestTask.Tests.dll"" /noshadow" -filter:"+[SmlTestTask*]*" -output:opencoverCoverage.xml
+    
+    $env:APPVEYOR_BUILD_NUMBER
+    
+    & tools/csmacnz.coveralls.exe --opencover -i opencoverCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --useRelativePaths --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
